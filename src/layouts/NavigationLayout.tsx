@@ -14,7 +14,10 @@ export const NavigationLayout = () => {
         <div className="navbar bg-primary text-primary-content">
           <div className="navbar-start">
             <a href="/" className="text-xl">
-              Genesys Works
+              <img
+                src="https://genesysworks.org/wp-content/uploads/2024/05/GW-White-logo-adj.png"
+                className="h-8"
+              />
             </a>
           </div>
           <div className="navbar-end flex">
