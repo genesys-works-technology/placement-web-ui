@@ -20,7 +20,7 @@ export const usePositions = () => {
   }>("/positions");
 
   return {
-    positions: data,
+    positions: data?.items ?? [],
     error,
     loading: isLoading,
   };
