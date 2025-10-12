@@ -176,32 +176,43 @@ components:
     Student:
       type: object
       required:
+        - id
         - firstName
         - lastName
         - graduationYear
         - email
         - phone
         - homeAddress
-        - schoolAddress
-        - schoolName
+        - highSchoolId
       properties:
+        id:
+          type: string
+          format: uuid
         firstName:
           type: string
+          x-faker: name.firstName
         lastName:
           type: string
+          x-faker: name.lastName
         graduationYear:
           type: integer
+          x-faker:
+            datatype.number:
+              min: 2020
+              max: 2025
         email:
           type: string
           format: email
+          x-faker: internet.email
         phone:
           type: string
+          x-faker: phone.phoneNumber
         homeAddress:
           type: string
-        schoolAddress:
+          x-faker: address.streetAddress
+        highSchoolId:
           type: string
-        schoolName:
-          type: string
+          format: uuid
     Position:
       type: object
       required:
@@ -209,17 +220,24 @@ components:
         - company
         - status
         - address
+        - gwLocation
       properties:
         id:
           type: string
           format: uuid
         company:
           type: string
+          x-faker: company.companyName
         address:
           type: string
-        remote:
-          type: boolean
-          description: Indicates if the position is remote
+          x-faker: address.streetAddress
+        location:
+          type: string
+          description: Indicates if the position is onsite, hybrid, or remote
+          enum:
+            - onsite
+            - hybrid
+            - remote
         startDate:
           type: string
           format: date
@@ -233,6 +251,9 @@ components:
           enum:
             - active
             - inactive
+        gwLocation:
+          type: string
+          x-faker: address.cityName
         createdAt:
           type: string
           format: date-time
@@ -242,6 +263,7 @@ components:
     HighSchool:
       type: object
       required:
+        - id
         - name
         - gwLocation
         - address
@@ -250,6 +272,9 @@ components:
           type: string
           format: uuid
           x-faker: string.uuid
+        name:
+          type: string
+          x-faker: company.companyName
         gwLocation:
           type: string
           x-faker: address.cityName
