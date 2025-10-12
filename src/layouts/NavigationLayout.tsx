@@ -12,10 +12,10 @@ type MenuProps = {
 
 const DesktopMenu = ({ currentPath }: MenuProps) => (
   <ul className="menu menu-horizontal px-1">
-    {routes.map(([link, text]) => {
+    {routes.map(([link, text], index) => {
       const isSelected = link === currentPath;
       return (
-        <li>
+        <li key={`desktopMenu_${index}`}>
           <a
             href={isSelected ? "#" : link}
             className={isSelected ? "font-bold" : ""}
@@ -50,10 +50,10 @@ const MobileMenu = ({ currentPath }: MenuProps) => (
       tabIndex={0}
       className="dropdown-content menu bg-base-100 text-black rounded-box z-1 w-52 p-2 shadow-sm"
     >
-      {routes.map(([link, text]) => {
+      {routes.map(([link, text], index) => {
         const isSelected = link === currentPath;
         return (
-          <li>
+          <li key={`mobileMenu_${index}`}>
             <a
               href={isSelected ? "#" : link}
               className={isSelected ? "font-bold" : ""}
