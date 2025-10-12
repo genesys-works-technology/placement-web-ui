@@ -46,10 +46,10 @@ paths:
                 $ref: "#/components/schemas/Student"
         "404":
           description: Student not found
-  /placements:
+  /positions:
     get:
-      summary: Get all placements
-      description: Returns a paginated list of placements
+      summary: Get all positions
+      description: Returns a paginated list of positions
       parameters:
         - name: cursor
           in: query
@@ -68,30 +68,76 @@ paths:
           description: Number of items to return
       responses:
         "200":
-          description: Paginated list of placements
+          description: Paginated list of positions
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PlacementListResponse"
-  /placements/{placementId}:
+                $ref: "#/components/schemas/PositionListResponse"
+  /positions/{positionId}:
     get:
-      summary: Get placement by ID
-      description: Returns a single placement
+      summary: Get position by ID
+      description: Returns a single position
       parameters:
-        - name: placementId
+        - name: positionId
           in: path
           required: true
           schema:
             type: string
       responses:
         "200":
-          description: Placement details
+          description: Position details
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Placement"
+                $ref: "#/components/schemas/Position"
         "404":
-          description: Placement not found
+          description: Position not found
+  /highSchool:
+    get:
+      summary: Get all high schools
+      description: Returns a paginated list of high schools
+      parameters:
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Cursor for pagination
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Number of items to return
+      responses:
+        "200":
+          description: Paginated list of high schools
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HighSchoolListResponse"
+  /highSchool/{highSchoolId}:
+    get:
+      summary: Get high school by ID
+      description: Returns a single high school
+      parameters:
+        - name: highSchoolId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: High school details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HighSchool"
+        "404":
+          description: Position not found
 components:
   schemas:
     StudentListResponse:
@@ -103,18 +149,29 @@ components:
             $ref: "#/components/schemas/Student"
         nextCursor:
           type: string
-          nullable: true
+          nullable: false
           description: Cursor for next page, or null if no more results
-    PlacementListResponse:
+    PositionListResponse:
       type: object
       properties:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/Placement"
+            $ref: "#/components/schemas/Position"
         nextCursor:
           type: string
-          nullable: true
+          nullable: false
+          description: Cursor for next page, or null if no more results
+    HighSchoolListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/HighSchool"
+        nextCursor:
+          type: string
+          nullable: false
           description: Cursor for next page, or null if no more results
     Student:
       type: object
@@ -145,7 +202,7 @@ components:
           type: string
         schoolName:
           type: string
-    Placement:
+    Position:
       type: object
       required:
         - id
@@ -162,7 +219,7 @@ components:
           type: string
         remote:
           type: boolean
-          description: Indicates if the placement is remote
+          description: Indicates if the position is remote
         startDate:
           type: string
           format: date
@@ -182,3 +239,20 @@ components:
         updatedAt:
           type: string
           format: date-time
+    HighSchool:
+      type: object
+      required:
+        - name
+        - gwLocation
+        - address
+      properties:
+        id:
+          type: string
+          format: uuid
+          x-faker: string.uuid
+        gwLocation:
+          type: string
+          x-faker: address.cityName
+        address:
+          type: string
+          x-faker: address.streetAddress
