@@ -16,10 +16,13 @@ type Position = {
 
 export const usePositions = () => {
   const [positions, setPositions] = useState<Position[]>([]);
-  const { data, error, isLoading } = useSWR<Position[]>("/positions");
+  const { data, error, isLoading } = useSWR<{
+    items: Position[];
+    nextCursor: string;
+  }>("/positions");
 
   useEffect(() => {
-    data && setPositions((prev) => [...prev, ...data]);
+    data?.items && setPositions((prev) => [...prev, ...data.items]);
   }, [data]);
 
   return {

@@ -1,10 +1,13 @@
 import { useParams } from "react-router-dom";
+import { usePositions } from "../../hooks/usePositions";
 
 export const MatchPage = () => {
-  const { placementId: selectedPlacementId, studentId: selectedStudentId } =
+  const { positionId: selectedPositionId, studentId: selectedStudentId } =
     useParams();
 
-  console.log({ selectedPlacementId, selectedStudentId });
+  const { positions } = usePositions();
+
+  console.log({ selectedPositionId, selectedStudentId, positions });
 
   return (
     <div>
