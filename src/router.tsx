@@ -7,7 +7,15 @@ export default function Router() {
     <Routes>
       <Route element={<NavigationLayout />}>
         <Route index element={<div>Dashboard</div>} />
-        <Route path="/match" element={<div>Create matches</div>} />
+        <Route path="/match" element={<div>Select a position</div>} />
+        <Route
+          path="/match/:placementId"
+          element={<div>Select a student</div>}
+        />
+        <Route
+          path="/match/:placementId/:studentId"
+          element={<div>Verify match</div>}
+        />
         <Route path="/ai" element={<div>AI</div>} />
       </Route>
     </Routes>
