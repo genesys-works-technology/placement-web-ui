@@ -1,0 +1,184 @@
+openapi: 3.0.3
+paths:
+  /students:
+    get:
+      summary: Get all students
+      description: Returns a paginated list of students
+      parameters:
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Cursor for pagination
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Number of items to return
+      responses:
+        "200":
+          description: Paginated list of students
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudentListResponse"
+  /students/{studentId}:
+    get:
+      summary: Get student by ID
+      description: Returns a single student
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Student details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "404":
+          description: Student not found
+  /placements:
+    get:
+      summary: Get all placements
+      description: Returns a paginated list of placements
+      parameters:
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Cursor for pagination
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Number of items to return
+      responses:
+        "200":
+          description: Paginated list of placements
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlacementListResponse"
+  /placements/{placementId}:
+    get:
+      summary: Get placement by ID
+      description: Returns a single placement
+      parameters:
+        - name: placementId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Placement details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Placement"
+        "404":
+          description: Placement not found
+components:
+  schemas:
+    StudentListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Student"
+        nextCursor:
+          type: string
+          nullable: true
+          description: Cursor for next page, or null if no more results
+    PlacementListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Placement"
+        nextCursor:
+          type: string
+          nullable: true
+          description: Cursor for next page, or null if no more results
+    Student:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - graduationYear
+        - email
+        - phone
+        - homeAddress
+        - schoolAddress
+        - schoolName
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        graduationYear:
+          type: integer
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        homeAddress:
+          type: string
+        schoolAddress:
+          type: string
+        schoolName:
+          type: string
+    Placement:
+      type: object
+      required:
+        - id
+        - company
+        - status
+        - address
+      properties:
+        id:
+          type: string
+          format: uuid
+        company:
+          type: string
+        address:
+          type: string
+        remote:
+          type: boolean
+          description: Indicates if the placement is remote
+        startDate:
+          type: string
+          format: date
+          nullable: true
+        endDate:
+          type: string
+          format: date
+          nullable: true
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
