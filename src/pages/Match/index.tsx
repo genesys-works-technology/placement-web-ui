@@ -45,7 +45,7 @@ const PositionsTable = () => {
                 <td>{position.gwLocation}</td>
                 <td>
                   <a
-                    className="btn btn-secondary"
+                    className="btn btn-secondary hover:bg-secondary/90"
                     href={`/match/${position.id}`}
                   >
                     Select
@@ -53,7 +53,7 @@ const PositionsTable = () => {
                 </td>
               </tr>
               <tr className={`${expandedRows[index] ? "" : "hidden"}`}>
-                <td colSpan={7}>Hello</td>
+                <td colSpan={7}>Show additional data here</td>
               </tr>
             </>
           ))}
