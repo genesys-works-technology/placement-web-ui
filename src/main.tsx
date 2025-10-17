@@ -5,7 +5,8 @@ import { SWRConfig } from "swr";
 import "./index.css";
 import Router from "./router";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) =>
+  fetch(new URL(url, "http://localhost:4010")).then((res) => res.json());
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
