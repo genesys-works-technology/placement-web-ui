@@ -71,3 +71,21 @@ export default defineConfig([
   },
 ])
 ```
+
+## Enabling Submodules
+This repository uses Git Submodules to maintain a single source of truth on some info (e.g. the docs folder). This allows us to keep Git repositories as a subdirectory of other Git repositories.
+
+#### Cloning the repo with submodules
+```bash
+git clone --recurse-submodules <url>
+```
+
+#### Initialize the submodule if you have already cloned the repo without
+```bash
+git submodule update --init --recursive
+```
+
+#### Pull latest
+```bash
+git pull --recurse-submodules
+```
