@@ -89,3 +89,14 @@ git submodule update --init --recursive
 ```bash
 git pull --recurse-submodules
 ```
+
+#### Update submodules
+Every so often the submodules should be updated. In each submodule: fetch & fast-forward main (skip if no matching origin/main). To do so, run the following:
+```
+git submodule foreach '
+  echo "---- $$path ----";
+  git fetch origin --prune;
+  git checkout main 2>/dev/null || git checkout -B main origin/main;
+  git pull --ff-only origin main || echo "Skipped: $$path (no fast-forward)"
+'
+```
