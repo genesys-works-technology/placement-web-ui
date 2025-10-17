@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { NavigationLayout } from "./layouts/NavigationLayout";
 import { MatchPage } from "./pages/Match";
