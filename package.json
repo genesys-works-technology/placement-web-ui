@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "mock-api": "prism mock -d ./api-spec.yaml"
+    "mock-api": "prism mock -d ./docs/api-spec.yaml"
   },
   "dependencies": {
     "react": "^19.1.1",
