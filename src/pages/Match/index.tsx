@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { usePositions } from "../../hooks/usePositions";
-import { useEffect, useState } from "react";
 
 const PositionsTable = () => {
   const { positions } = usePositions();
@@ -14,49 +14,52 @@ const PositionsTable = () => {
       <div className="overflow-x-auto m-4">
         <table className="table table-xs table-pin-rows">
           <thead>
-            <th>Company Name</th>
-            <th>Address</th>
-            <th>Work Location</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Status</th>
-            <th>GW Location</th>
-            <th></th>
+            <tr>
+              <th>Company Name</th>
+              <th>Address</th>
+              <th>Work Location</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Status</th>
+              <th>GW Location</th>
+              <th></th>
+            </tr>
           </thead>
-          {positions.map((position, index) => (
-            <>
-              <tr
-                key={`positionRow_${position.id}`}
-                className="hover:bg-secondary/10 cursor-pointer"
-                onClick={() =>
-                  setExpandedRows((prev) => {
-                    const a = [...prev];
-                    a[index] = !a[index];
-                    return a;
-                  })
-                }
-              >
-                <th>{position.company}</th>
-                <td>{position.address}</td>
-                <td>{position.workLocation}</td>
-                <td>{position.startDate}</td>
-                <td>{position.endDate}</td>
-                <td>{position.status}</td>
-                <td>{position.gwLocation}</td>
-                <td>
-                  <a
-                    className="btn btn-secondary hover:bg-secondary/90"
-                    href={`/match/${position.id}`}
-                  >
-                    Select
-                  </a>
-                </td>
-              </tr>
-              <tr className={`${expandedRows[index] ? "" : "hidden"}`}>
-                <td colSpan={7}>Show additional data here</td>
-              </tr>
-            </>
-          ))}
+          <tbody>
+            {positions.map((position, index) => (
+              <React.Fragment key={`positionFragment_${position.id}`}>
+                <tr
+                  className="hover:bg-secondary/10 cursor-pointer"
+                  onClick={() =>
+                    setExpandedRows((prev) => {
+                      const a = [...prev];
+                      a[index] = !a[index];
+                      return a;
+                    })
+                  }
+                >
+                  <td>{position.company}</td>
+                  <td>{position.address}</td>
+                  <td>{position.workLocation}</td>
+                  <td>{position.startDate}</td>
+                  <td>{position.endDate}</td>
+                  <td>{position.status}</td>
+                  <td>{position.gwLocation}</td>
+                  <td>
+                    <a
+                      className="btn btn-secondary hover:bg-secondary/90"
+                      href={`/match/${position.id}`}
+                    >
+                      Select
+                    </a>
+                  </td>
+                </tr>
+                <tr className={`${expandedRows[index] ? "" : "hidden"}`}>
+                  <td colSpan={7}>Show additional data here</td>
+                </tr>
+              </React.Fragment>
+            ))}
+          </tbody>
         </table>
       </div>
     </div>

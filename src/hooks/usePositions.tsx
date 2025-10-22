@@ -17,7 +17,7 @@ export const usePositions = () => {
   const { data, error, isLoading } = useSWR<{
     items: Position[];
     nextCursor: string;
-  }>("/positions");
+  }>("/placements");
 
   return {
     positions: data?.items ?? [],
