@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import useSWR from "swr";
 
 type Position = {
@@ -17,10 +18,12 @@ export const usePositions = () => {
   const { data, error, isLoading } = useSWR<{
     items: Position[];
     nextCursor: string;
-  }>("/placements");
+  }>("/positions");
+
+  const positions = useMemo(() => data?.items ?? [], [data?.items]);
 
   return {
-    positions: data?.items ?? [],
+    positions,
     error,
     loading: isLoading,
   };
