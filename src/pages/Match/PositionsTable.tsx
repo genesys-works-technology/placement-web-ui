@@ -48,7 +48,7 @@ export const PositionsTable = () => {
                                     <td>
                                         <a
                                             className="btn btn-secondary hover:bg-secondary/90"
-                                            href={`/match/${position.id}`}
+                                            href={`/match?positionId=${position.id}`}
                                         >
                                             Select
                                         </a>
