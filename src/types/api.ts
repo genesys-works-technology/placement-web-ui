@@ -96,7 +96,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/placements": {
+    "/positions": {
         parameters: {
             query?: never;
             header?: never;
@@ -104,8 +104,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get all placements
-         * @description Returns a paginated list of placements
+         * Get all positions
+         * @description Returns a paginated list of positions
          */
         get: {
             parameters: {
@@ -121,13 +121,13 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Paginated list of placements */
+                /** @description Paginated list of positions */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["PlacementListResponse"];
+                        "application/json": components["schemas"]["PositionListResponse"];
                     };
                 };
             };
@@ -140,7 +140,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/placements/{placementId}": {
+    "/positions/{positionId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -148,30 +148,122 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get placement by ID
-         * @description Returns a single placement
+         * Get position by ID
+         * @description Returns a single position
          */
         get: {
             parameters: {
                 query?: never;
                 header?: never;
                 path: {
-                    placementId: string;
+                    positionId: string;
                 };
                 cookie?: never;
             };
             requestBody?: never;
             responses: {
-                /** @description Placement details */
+                /** @description Position details */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["Placement"];
+                        "application/json": components["schemas"]["Position"];
                     };
                 };
-                /** @description Placement not found */
+                /** @description Position not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/highSchools": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all high schools
+         * @description Returns a paginated list of high schools
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Cursor for pagination */
+                    cursor?: string;
+                    /** @description Number of items to return */
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Paginated list of high schools */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["HighSchoolListResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/highSchools/{highSchoolId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get high school by ID
+         * @description Returns a single high school
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    highSchoolId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description High school details */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["HighSchool"];
+                    };
+                };
+                /** @description Position not found */
                 404: {
                     headers: {
                         [name: string]: unknown;
@@ -197,12 +289,19 @@ export interface components {
             /** @description Cursor for next page, or null if no more results */
             nextCursor?: string | null;
         };
-        PlacementListResponse: {
-            items?: components["schemas"]["Placement"][];
+        PositionListResponse: {
+            items?: components["schemas"]["Position"][];
+            /** @description Cursor for next page, or null if no more results */
+            nextCursor?: string | null;
+        };
+        HighSchoolListResponse: {
+            items?: components["schemas"]["HighSchool"][];
             /** @description Cursor for next page, or null if no more results */
             nextCursor?: string | null;
         };
         Student: {
+            /** Format: uuid */
+            id: string;
             firstName: string;
             lastName: string;
             graduationYear: number;
@@ -210,26 +309,37 @@ export interface components {
             email: string;
             phone: string;
             homeAddress: string;
-            schoolAddress: string;
-            schoolName: string;
+            /** Format: uuid */
+            highSchoolId: string;
         };
-        Placement: {
+        Position: {
             /** Format: uuid */
             id: string;
             company: string;
             address: string;
-            /** @description Indicates if the placement is remote */
-            remote?: boolean;
+            /**
+             * @description Indicates if the position is onsite, hybrid, or remote
+             * @enum {string}
+             */
+            workLocation?: "onsite" | "hybrid" | "remote";
             /** Format: date */
             startDate?: string | null;
             /** Format: date */
             endDate?: string | null;
             /** @enum {string} */
             status: "active" | "inactive";
+            gwLocation: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+        };
+        HighSchool: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            gwLocation: string;
+            address: string;
         };
     };
     responses: never;

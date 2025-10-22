@@ -1,33 +1,39 @@
 import { http, HttpResponse } from 'msw'
 import type { components } from '../types/api'
 
+// Update mock arrays to match new types from the latest api spec
 const students: components['schemas']['Student'][] = Array.from({ length: 10 }, (_, i) => ({
+    id: `${i + 1}`,
     firstName: `Student${i + 1}`,
     lastName: `Last${i + 1}`,
     graduationYear: 2025 + (i % 3),
     email: `student${i + 1}@example.com`,
     phone: `12345678${i}`,
     homeAddress: `${100 + i} Main St`,
+    highSchoolId: `HS${i + 1}`,
     schoolAddress: `${200 + i} School Rd`,
     schoolName: `School ${i + 1}`
 }))
 
-const placements: components['schemas']['Placement'][] = Array.from({ length: 10 }, (_, i) => ({
+const workLocationTypes: Array<"onsite" | "remote" | "hybrid"> = ['onsite', 'remote', 'hybrid']
+
+const positions: components['schemas']['Position'][] = Array.from({ length: 10 }, (_, i) => ({
     id: `${i + 1}`,
     company: `Company ${i + 1}`,
     address: `${300 + i} Business Ave`,
-    remote: i % 2 === 0,
+    status: i % 2 === 0 ? "active" : "inactive",
+    gwLocation: `GW Location ${i + 1}`,
+    workLocation: workLocationTypes[Math.floor(Math.random() * workLocationTypes.length)],
     startDate: `2025-0${(i % 9) + 1}-01`,
     endDate: `2025-1${(i % 9) + 1}-01`,
-    status: i % 2 === 0 ? "active" : "inactive",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
 }))
 
 type Student = components['schemas']['Student']
-type Placement = components['schemas']['Placement']
+type Position = components['schemas']['Position']
 type StudentListResponse = components['schemas']['StudentListResponse']
-type PlacementListResponse = components['schemas']['PlacementListResponse']
+type PositionListResponse = components['schemas']['PositionListResponse']
 
 export const handlers = [
     http.get('/students', ({ request }) => {
@@ -49,22 +55,22 @@ export const handlers = [
         return HttpResponse.json(student, { status: 200 })
     }),
 
-    http.get('/placements', ({ request }) => {
+    http.get('/positions', ({ request }) => {
         const url = new URL(request.url)
         const limit: number = Number(url.searchParams.get('limit')) || 20
-        const items: Placement[] = placements.slice(0, limit)
-        const response: PlacementListResponse = {
+        const items: Position[] = positions.slice(0, limit)
+        const response: PositionListResponse = {
             items,
             nextCursor: null
         }
         return HttpResponse.json(response, { status: 200 })
     }),
 
-    http.get('/placements/:placementId', ({ params }) => {
-        const placement: Placement | undefined = placements.find(p => p.id === params.placementId)
-        if (!placement) {
-            return HttpResponse.json({ error: 'Placement not found' }, { status: 404 })
+    http.get('/positions/:positionId', ({ params }) => {
+        const position: Position | undefined = positions.find(p => p.id === params.positionId)
+        if (!position) {
+            return HttpResponse.json({ error: 'Position not found' }, { status: 404 })
         }
-        return HttpResponse.json(placement, { status: 200 })
+        return HttpResponse.json(position, { status: 200 })
     })
 ]
