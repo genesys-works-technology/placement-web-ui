@@ -9,7 +9,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "mock-api": "prism mock -d ./docs/api-spec.yaml"
+    "mock-api": "prism mock -d ./docs/api-spec.yaml",
+    "generate-types": "openapi-typescript docs/api-spec.yaml -o src/types/api.ts"
   },
   "dependencies": {
     "react": "^19.1.1",
