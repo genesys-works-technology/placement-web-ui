@@ -5,6 +5,12 @@ import { SWRConfig } from "swr";
 import "./index.css";
 import Router from "./router";
 
+if (import.meta.env.MODE === "mock") {
+  import("./mocks/browser").then(({ worker }) => {
+    worker.start();
+  });
+}
+
 const fetcher = (url: string) =>
   fetch(new URL(url, "http://localhost:4010")).then((res) => res.json());
 
