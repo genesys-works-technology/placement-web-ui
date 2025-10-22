@@ -1,33 +1,28 @@
 import { http, HttpResponse } from 'msw'
 import type { components } from '../types/api'
 
-const students: components['schemas']['Student'][] = [
-    // Example mock data
-    {
-        firstName: "John",
-        lastName: "Doe",
-        graduationYear: 2025,
-        email: "john.doe@example.com",
-        phone: "1234567890",
-        homeAddress: "123 Main St",
-        schoolAddress: "456 School Rd",
-        schoolName: "Example School"
-    }
-]
+const students: components['schemas']['Student'][] = Array.from({ length: 10 }, (_, i) => ({
+    firstName: `Student${i + 1}`,
+    lastName: `Last${i + 1}`,
+    graduationYear: 2025 + (i % 3),
+    email: `student${i + 1}@example.com`,
+    phone: `12345678${i}`,
+    homeAddress: `${100 + i} Main St`,
+    schoolAddress: `${200 + i} School Rd`,
+    schoolName: `School ${i + 1}`
+}))
 
-const placements: components['schemas']['Placement'][] = [
-    {
-        id: "1",
-        company: "Acme Corp",
-        address: "789 Business Ave",
-        remote: false,
-        startDate: null,
-        endDate: null,
-        status: "active",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    }
-]
+const placements: components['schemas']['Placement'][] = Array.from({ length: 10 }, (_, i) => ({
+    id: `${i + 1}`,
+    company: `Company ${i + 1}`,
+    address: `${300 + i} Business Ave`,
+    remote: i % 2 === 0,
+    startDate: `2025-0${(i % 9) + 1}-01`,
+    endDate: `2025-1${(i % 9) + 1}-01`,
+    status: i % 2 === 0 ? "active" : "inactive",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+}))
 
 type Student = components['schemas']['Student']
 type Placement = components['schemas']['Placement']
