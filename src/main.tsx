@@ -5,8 +5,18 @@ import { SWRConfig } from "swr";
 import "./index.css";
 import Router from "./router";
 
-const fetcher = (url: string) =>
-  fetch(new URL(url, "http://localhost:4010")).then((res) => res.json());
+const isMockMode = import.meta.env.MODE === "mock";
+
+if (isMockMode) {
+  import("./mocks/browser").then(({ worker }) => {
+    worker.start();
+  });
+}
+
+const fetcher = (url: string) => {
+  const fetchUrl = isMockMode ? url : new URL(url, "http://localhost:4010").toString();
+  return fetch(fetchUrl).then((res) => res.json());
+};
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
